@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Xml.Linq;
 
 namespace AdministratieProgramma
 {
+    [Serializable]
     public class Customer
     {
 
@@ -31,9 +35,11 @@ namespace AdministratieProgramma
     public class Program
     {
         private static List<Customer> _CustomerList = new List<Customer>();
+        private static string _filePath = "customers.dat";
 
         public static void Main(string[] args)
         {
+            Load();
             bool _isBusy = true;
 
             Console.WriteLine("--- Welkom in the Administration Program ---");
@@ -55,6 +61,7 @@ namespace AdministratieProgramma
                         break;
                     case "4":
                         _isBusy = false;
+                        Save();
                         Console.WriteLine("Programma is shutting down...");
                         break;
                     default:
@@ -96,6 +103,7 @@ namespace AdministratieProgramma
             {
                 Customer newCustomer = new Customer(name, age, email);
                 _CustomerList.Add(newCustomer);
+                Save();
                 Console.WriteLine("Customer succesfully added!");
             }
             else
@@ -198,6 +206,7 @@ namespace AdministratieProgramma
             if (customerFound != null)
             {
                 _CustomerList.Remove(customerFound);
+                Save();
                 Console.WriteLine($"\nSucces: Customer'{customerFound.Name}' is deleted.");
             }
             else
@@ -226,6 +235,39 @@ namespace AdministratieProgramma
                 }
             }
             return sorted;
+        }
+        public static void Save()
+        {
+            try
+            {
+                BinaryFormatter binform = new BinaryFormatter();
+                using (FileStream file = File.Open(_filePath, FileMode.Create))
+                {
+                    binform.Serialize(file, _CustomerList);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Save error: " + ex.Message);
+            }
+        }
+        public static void Load()
+        {
+            if (File.Exists(_filePath))
+            {
+                try
+                {
+                    BinaryFormatter binform = new BinaryFormatter();
+                    using (FileStream file = File.Open(_filePath, FileMode.Open))
+                    {
+                        _CustomerList = (List<Customer>)binform.Deserialize(file);
+                    }
+                }
+                catch (Exception)
+                {
+                    _CustomerList = new List<Customer>();
+                }
+            }
         }
     }
 }
