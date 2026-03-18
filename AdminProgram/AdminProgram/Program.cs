@@ -67,10 +67,10 @@ namespace AdministratieProgramma
         private static void ShowMenu()
         {
             Console.WriteLine("\nMake a decision:");
-            Console.WriteLine("1. add customer");
-            Console.WriteLine("2. show all customers");
-            Console.WriteLine("3. delete user(by name)");
-            Console.WriteLine("4. shutdown");
+            Console.WriteLine("1. Add customer");
+            Console.WriteLine("2. Show all customers");
+            Console.WriteLine("3. Delete user(by name)");
+            Console.WriteLine("4. Shutdown");
             Console.Write("Decision: ");
         }
 
@@ -183,7 +183,7 @@ namespace AdministratieProgramma
         private static void DeleteCustomer()
         {
             Console.Clear();
-            if(_CustomerList.Count == 0)
+            if (_CustomerList.Count == 0)
             {
                 Console.WriteLine("This list is empty. nothing here to delete");
                 Console.ReadKey();
@@ -195,7 +195,7 @@ namespace AdministratieProgramma
 
             Customer customerFound = _CustomerList.Find(c => c.Name.Equals(InputName, StringComparison.OrdinalIgnoreCase));
 
-            if(customerFound != null)
+            if (customerFound != null)
             {
                 _CustomerList.Remove(customerFound);
                 Console.WriteLine($"\nSucces: Customer'{customerFound.Name}' is deleted.");
