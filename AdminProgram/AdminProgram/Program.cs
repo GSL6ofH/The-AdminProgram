@@ -5,7 +5,7 @@ namespace AdministratieProgramma
 {
     public class Customer
     {
-        
+
         private string _name;
         private int _age;
         private string _email;
@@ -17,9 +17,11 @@ namespace AdministratieProgramma
             _age = age;
             _email = email;
         }
+
         public string Name => _name;
         public int Age => _age;
         public string Email => _email;
+
         public void ShowInfo()
         {
             Console.WriteLine($"- Name: {_name}, Age: {_age}, Email: {_email}");
@@ -29,6 +31,7 @@ namespace AdministratieProgramma
     public class Program
     {
         private static List<Customer> _CustomerList = new List<Customer>();
+
         public static void Main(string[] args)
         {
             bool _isBusy = true;
@@ -57,6 +60,7 @@ namespace AdministratieProgramma
                 }
             }
         }
+
         private static void ShowMenu()
         {
             Console.WriteLine("\nMake a decision:");
@@ -78,7 +82,7 @@ namespace AdministratieProgramma
             if (!email.Contains("@gmail") && !email.Contains("@hotmail") && !email.Contains("@outlook"))
             {
                 Console.WriteLine("Error: This isn't a valid email provider (Gmail/Hotmail/Outlook required).");
-                Console.ReadKey(); 
+                Console.ReadKey();
                 return;
             }
 
@@ -94,14 +98,34 @@ namespace AdministratieProgramma
             {
                 Console.WriteLine("Error put in a correct age.");
             }
+            Console.ReadKey();
             Console.Clear();
 
         }
+
         private static void ShowAll()
         {
             Console.Clear();
-            Console.WriteLine("--- Filter options (leave empty to skip) ---");
+            if (_CustomerList.Count == 0)
+            {
+                Console.WriteLine("The list is still empty.");
+                Console.ReadKey();
+                return;
+            }
+            Console.Write("Do you want it to  be sorted from youngest to oldest? (y/n): ");
+            string sortDecision = Console.ReadLine().ToLower();
 
+            List<Customer> listToDisplay;
+            if (sortDecision == "y")
+            {
+                listToDisplay = GetSortedList();
+            }
+            else
+            {
+                listToDisplay = _CustomerList;
+            }
+
+            Console.WriteLine("\n--- Filter options (leave empty to skip) ---");
             Console.Write("Enter minimum age: ");
             string ageInput = Console.ReadLine();
             int minAge = 0;
@@ -112,11 +136,11 @@ namespace AdministratieProgramma
             bool filterByLetter = !string.IsNullOrEmpty(letterInput);
 
             Console.Clear();
-            Console.WriteLine("\n--- Filterd Customer info ---");
-
+            Console.WriteLine("--- Filtered Customer info ---");
             int foundCount = 0;
+            int totalAge = 0;
 
-          foreach (Customer customer in _CustomerList)
+            foreach (Customer customer in listToDisplay)
             {
                 bool matchesAge = true;
                 bool matchesLetter = true;
@@ -125,25 +149,50 @@ namespace AdministratieProgramma
                 {
                     matchesAge = false;
                 }
-                if(filterByLetter && !customer.Name.ToLower().StartsWith(letterInput.ToLower()))
+                if (filterByLetter && !customer.Name.ToLower().StartsWith(letterInput.ToLower()))
                 {
                     matchesLetter = false;
                 }
-                if(matchesAge && matchesLetter)
+
+                if (matchesAge && matchesLetter)
                 {
                     customer.ShowInfo();
                     foundCount++;
+                    totalAge += customer.Age;
                 }
             }
             if (foundCount == 0)
             {
                 Console.WriteLine("No customers found with these filters.");
             }
+            else
+            {
+                double average = (double)totalAge / foundCount;
+                Console.WriteLine($"\nTotal found: {foundCount}");
+                Console.WriteLine($"Average age of these customers: {average:F1}");
+            }
 
             Console.WriteLine("\nPress any key to return to menu...");
             Console.ReadKey();
             Console.Clear();
+        }
+        private static List<Customer> GetSortedList()
+        {
+            List<Customer> sorted = new List<Customer>(_CustomerList);
 
+            for (int i = 0; i < sorted.Count - 1; i++)
+            {
+                for (int j = 0; j < sorted.Count - i - 1; j++)
+                {
+                    if (sorted[j].Age > sorted[j + 1].Age)
+                    {
+                        Customer temp = sorted[j];
+                        sorted[j] = sorted[j + 1];
+                        sorted[j + 1] = temp;
+                    }
+                }
+            }
+            return sorted;
         }
     }
 }
