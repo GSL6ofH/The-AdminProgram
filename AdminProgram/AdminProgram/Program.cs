@@ -51,6 +51,9 @@ namespace AdministratieProgramma
                         ShowAll();
                         break;
                     case "3":
+                        DeleteCustomer();
+                        break;
+                    case "4":
                         _isBusy = false;
                         Console.WriteLine("Programma is shutting down...");
                         break;
@@ -66,7 +69,8 @@ namespace AdministratieProgramma
             Console.WriteLine("\nMake a decision:");
             Console.WriteLine("1. add customer");
             Console.WriteLine("2. show all customers");
-            Console.WriteLine("3. shutdown");
+            Console.WriteLine("3. delete user(by name)");
+            Console.WriteLine("4. shutdown");
             Console.Write("Decision: ");
         }
 
@@ -173,6 +177,35 @@ namespace AdministratieProgramma
             }
 
             Console.WriteLine("\nPress any key to return to menu...");
+            Console.ReadKey();
+            Console.Clear();
+        }
+        private static void DeleteCustomer()
+        {
+            Console.Clear();
+            if(_CustomerList.Count == 0)
+            {
+                Console.WriteLine("This list is empty. nothing here to delete");
+                Console.ReadKey();
+                return;
+            }
+
+            Console.WriteLine("fill in the name of the one you want to delete");
+            string InputName = Console.ReadLine();
+
+            Customer customerFound = _CustomerList.Find(c => c.Name.Equals(InputName, StringComparison.OrdinalIgnoreCase));
+
+            if(customerFound != null)
+            {
+                _CustomerList.Remove(customerFound);
+                Console.WriteLine($"\nSucces: Customer'{customerFound.Name}' is deleted.");
+            }
+            else
+            {
+                Console.WriteLine($"\nError no customer exist with the name '{InputName}'.");
+            }
+
+            Console.WriteLine("\npress a key to return back to menu");
             Console.ReadKey();
             Console.Clear();
         }
