@@ -60,7 +60,7 @@ namespace AdministratieProgramma
                         DeleteCustomer();
                         break;
                     case "4":
-                       EditCustomer();
+                        EditCustomer();
                         break;
                     case "5":
                         _isBusy = false;
