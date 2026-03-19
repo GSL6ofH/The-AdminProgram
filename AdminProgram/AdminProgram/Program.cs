@@ -90,7 +90,7 @@ namespace AdministratieProgramma
             Console.Write("Enter email: ");
             string email = Console.ReadLine();
 
-            if (!email.Contains("@gmail") && !email.Contains("@hotmail") && !email.Contains("@outlook"))
+            if (!email.Contains("@gmail") && !email.Contains("@hotmail") && !email.Contains("@outlook") && !email.Contains("@live"))
             {
                 Console.WriteLine("Error: This isn't a valid email provider (Gmail/Hotmail/Outlook required).");
                 Console.ReadKey();
