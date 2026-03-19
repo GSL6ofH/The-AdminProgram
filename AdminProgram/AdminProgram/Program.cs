@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Xml.Linq;
+
 
 namespace AdministratieProgramma
 {
@@ -22,9 +22,9 @@ namespace AdministratieProgramma
             _email = email;
         }
 
-        public string Name => _name;
-        public int Age => _age;
-        public string Email => _email;
+        public string Name { get => _name; set => _name = value; }
+        public int Age { get => _age; set => _age = value; }
+        public string Email { get => _email; set => _email = value; }
 
         public void ShowInfo()
         {
@@ -60,6 +60,9 @@ namespace AdministratieProgramma
                         DeleteCustomer();
                         break;
                     case "4":
+                       EditCustomer();
+                        break;
+                    case "5":
                         _isBusy = false;
                         Save();
                         Console.WriteLine("Programma is shutting down...");
@@ -77,7 +80,8 @@ namespace AdministratieProgramma
             Console.WriteLine("1. Add customer");
             Console.WriteLine("2. Show all customers");
             Console.WriteLine("3. Delete user(by name)");
-            Console.WriteLine("4. Shutdown");
+            Console.WriteLine("4. Edit user");
+            Console.WriteLine("5. Shutdown");
             Console.Write("Decision: ");
         }
 
@@ -224,6 +228,65 @@ namespace AdministratieProgramma
             }
 
             Console.WriteLine("\npress a key to return back to menu");
+            Console.ReadKey();
+            Console.Clear();
+        }
+        private static void EditCustomer()
+        {
+            Console.Clear();
+            if (_CustomerList.Count == 0)
+            {
+                Console.WriteLine("The list is empty.");
+                Console.ReadKey();
+                return;
+            }
+
+            Console.Write("Enter the name of the customer to edit: ");
+            string inputName = Console.ReadLine();
+
+            Customer customerToEdit = null;
+            foreach (Customer c in _CustomerList)
+            {
+                if (c.Name.Equals(inputName, StringComparison.OrdinalIgnoreCase))
+                {
+                    customerToEdit = c;
+                    break;
+                }
+            }
+
+            if (customerToEdit != null)
+            {
+                Console.WriteLine("\nWhat do you want to change?");
+                Console.WriteLine("1. Name");
+                Console.WriteLine("2. Age");
+                Console.WriteLine("3. Email");
+                Console.Write("Decision: ");
+                string choice = Console.ReadLine();
+
+                if (choice == "1")
+                {
+                    Console.Write("Enter new name: ");
+                    customerToEdit.Name = Console.ReadLine();
+                }
+                else if (choice == "2")
+                {
+                    Console.Write("Enter new age: ");
+                    if (int.TryParse(Console.ReadLine(), out int newAge)) customerToEdit.Age = newAge;
+                }
+                else if (choice == "3")
+                {
+                    Console.Write("Enter new email: ");
+                    string newEmail = Console.ReadLine();
+                    if (newEmail.Contains("@")) customerToEdit.Email = newEmail;
+                }
+
+                Save();
+                Console.WriteLine("\nChanges saved!");
+            }
+            else
+            {
+                Console.WriteLine("Customer not found.");
+            }
             Console.ReadKey();
             Console.Clear();
         }
