@@ -143,6 +143,11 @@ namespace AdministratieProgramma
             int minAge = 0;
             bool filterByAge = int.TryParse(ageInput, out minAge);
 
+            Console.Write("Enter maximum age: ");
+            string maxAgeInput = Console.ReadLine();
+            int maxAge = int.MaxValue;
+            bool filterByMaxAge = int.TryParse(maxAgeInput, out maxAge);
+
             Console.Write("Enter starting letter: ");
             string letterInput = Console.ReadLine();
             bool filterByLetter = !string.IsNullOrEmpty(letterInput);
@@ -158,6 +163,10 @@ namespace AdministratieProgramma
                 bool matchesLetter = true;
 
                 if (filterByAge && customer.Age < minAge)
+                {
+                    matchesAge = false;
+                }
+                if (filterByMaxAge && customer.Age > maxAge)
                 {
                     matchesAge = false;
                 }
