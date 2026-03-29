@@ -39,7 +39,7 @@ namespace AdministratieProgramma
             }
         }
 
-        private static void ShowMenu()
+        private static void ShowMenu()//the visual menu
         {
             Console.WriteLine("\nMake a decision:");
             Console.WriteLine("1. Add customer");
@@ -82,7 +82,7 @@ namespace AdministratieProgramma
             Console.Clear();
         }
 
-        private static void ShowAll()
+        private static void ShowAll() //the show all function with the age filtering
         {
             Console.Clear();
             if (_CustomerList.Count == 0)
@@ -148,7 +148,7 @@ namespace AdministratieProgramma
             Console.Clear();
         }
 
-        private static void DeleteCustomer()
+        private static void DeleteCustomer()//delete function so the admin can delete old users
         {
             Console.Clear();
             if (_CustomerList.Count == 0)
@@ -179,7 +179,7 @@ namespace AdministratieProgramma
             Console.Clear();
         }
 
-        private static void EditCustomer()
+        private static void EditCustomer()// edit function so the user can update the mistakes
         {
             Console.Clear();
             if (_CustomerList.Count == 0)
@@ -231,7 +231,7 @@ namespace AdministratieProgramma
             Console.Clear();
         }
 
-        private static List<UserClass> GetSortedList()
+        private static List<UserClass> GetSortedList()//function for the list to get sorted
         {
             List<UserClass> sorted = new List<UserClass>(_CustomerList);
             for (int i = 0; i < sorted.Count - 1; i++)
@@ -249,7 +249,7 @@ namespace AdministratieProgramma
             return sorted;
         }
 
-        public static void Save()
+        public static void Save()//save function
         {
             try
             {
@@ -265,7 +265,7 @@ namespace AdministratieProgramma
             }
         }
 
-        public static void Load()
+        public static void Load()// load function
         {
             if (File.Exists(_filePath))
             {

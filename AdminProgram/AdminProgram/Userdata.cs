@@ -3,7 +3,7 @@
 namespace AdministratieProgramma
 {
     [Serializable]
-    public class UserClass
+    public class UserClass //all the user info
     {
         private string _name;
         private int _age;

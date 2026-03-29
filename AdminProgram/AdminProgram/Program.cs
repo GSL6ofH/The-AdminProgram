@@ -1,6 +1,6 @@
 ﻿namespace AdministratieProgramma
 {
-    class MainProgram
+    class MainProgram//main program
     {
         static void Main(string[] args)
         {
